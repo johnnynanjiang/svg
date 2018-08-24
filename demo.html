@@ -1,20 +1,38 @@
 <html>
+<head>
+    <style>
+        .path {
+            stroke-dasharray: 100%;
+            stroke-dashoffset: 100%;
+            animation: dash 1s linear forwards;
+        }
+
+        @keyframes dash {
+            from {
+                stroke-dashoffset: 100%;
+            }
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
 <body>
-<svg>
-    <path fill="none" stroke="#000000"
-          d="M 10,50
-            q 15,15 30,0
-            t 30,0 30,0 30,0 30,0 30,0" />
+    <svg>
+        <path class="path" fill="none" stroke="#000000"
+              d="M 10,50
+                q 15,15 30,0
+                t 30,0 30,0 30,0 30,0 30,0" />
 
-    <path fill="none" stroke="#000000"
-          d="M 20,70
-            q 15,15 30,0
-            t 30,0 30,0 30,0 30,0 30,0" />
+        <path fill="none" stroke="#000000"
+              d="M 20,70
+                q 15,15 30,0
+                t 30,0 30,0 30,0 30,0 30,0" />
 
-    <path fill="none" stroke="#000000"
-          d="M 30,90
-            q 15,15 30,0
-            t 30,0 30,0 30,0 30,0 30,0" />
-</svg>
+        <path fill="none" stroke="#000000"
+              d="M 30,90
+                q 15,15 30,0
+                t 30,0 30,0 30,0 30,0 30,0" />
+    </svg>
 </body>
 </html>
