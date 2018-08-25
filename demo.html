@@ -4,10 +4,10 @@
         .path {
             stroke-dasharray: 100%;
             stroke-dashoffset: 100%;
-            animation: dash 1s linear forwards;
+            animation: hand-drawing 1s linear forwards;
         }
 
-        @keyframes dash {
+        @keyframes hand-drawing {
             from {
                 stroke-dashoffset: 100%;
             }
@@ -15,21 +15,25 @@
                 stroke-dashoffset: 0;
             }
         }
+
+        #drawing-1 { animation-delay: 1s }
+        #drawing-2 { animation-delay: 2.5s }
+        #drawing-3 { animation-delay: 4s }
     </style>
 </head>
 <body>
     <svg>
-        <path class="path" fill="none" stroke="#000000"
+        <path id="drawing-1" class="path" fill="none" stroke="#000000"
               d="M 10,50
                 q 15,15 30,0
                 t 30,0 30,0 30,0 30,0 30,0" />
 
-        <path fill="none" stroke="#000000"
+        <path id="drawing-2" class="path" fill="none" stroke="#000000"
               d="M 20,70
                 q 15,15 30,0
                 t 30,0 30,0 30,0 30,0 30,0" />
 
-        <path fill="none" stroke="#000000"
+        <path id="drawing-3" class="path" fill="none" stroke="#000000"
               d="M 30,90
                 q 15,15 30,0
                 t 30,0 30,0 30,0 30,0 30,0" />
