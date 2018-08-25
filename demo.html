@@ -4,7 +4,7 @@
         .path {
             stroke-dasharray: 100%;
             stroke-dashoffset: 100%;
-            animation: hand-drawing 1s linear forwards;
+            animation: hand-drawing 1s linear forwards, move 6s infinite
         }
 
         @keyframes hand-drawing {
@@ -19,6 +19,15 @@
         #drawing-1 { animation-delay: 1s }
         #drawing-2 { animation-delay: 2.5s }
         #drawing-3 { animation-delay: 4s }
+
+        @keyframes move {
+            from {
+                transform: translateX(0px)
+            }
+            to {
+                transform: translateX(100px)
+            }
+        }
     </style>
 </head>
 <body>
