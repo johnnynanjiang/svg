@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <style>
+      #wave-container {
+        position: relative;
+      }
+      #one,
+      #three {
+        width: 366px;
+        left: -91.5px;
+        position: relative;
+        opacity: 1;
+        animation: wave-positive 1s linear 5s infinite;
+      }
+      #two {
+        width: 366px;
+        left: -91.5px;
+        position: relative;
+        opacity: 1;
+        animation: wave-positive 1s linear 5s infinite;
+      }
+      #three {
+        animation: wave-positive 1s linear 5s infinite;
+      }
+      #one .path-black,
+      #two .path-black,
+      #three .path-black {
+        stroke-dasharray: 315;
+        stroke-dashoffset: 315;
+      }
+      #one .path-blue,
+      #two .path-blue,
+      #three .path-blue {
+        stroke-dasharray: 315;
+        stroke-dashoffset: 315;
+      }
+      #one .path-black {
+        animation: draw-positive 1s linear forwards;
+      }
+      #two .path-black {
+        animation: draw-positive 1s linear 1s forwards;
+      }
+      #three .path-black {
+        animation: draw-positive 1s linear 2s forwards;
+      }
+      #one .path-blue {
+        animation: draw-positive 1s linear 4s forwards;
+      }
+      #two .path-blue {
+        animation: draw-positive 1s linear 4s forwards;
+      }
+      #three .path-blue {
+        animation: draw-positive 1s linear 4s forwards;
+      }
+      .waves {
+        position: absolute;
+        top: 41px;
+        margin-left: 10px;
+        width: 183px;
+        height: 18px;
+        overflow: hidden;
+      }
+      .waves:nth-child(2) {
+        top: 61px;
+        margin-left: 20px;
+      }
+      .waves:nth-child(3) {
+        top: 81px;
+        margin-left: 30px;
+      }
+      @keyframes wave-positive {
+        0% {
+          opacity: 1;
+          left: -61.5px;
+        }
+        100% {
+          opacity: 1;
+          left: 0;
+        }
+      }
+      @keyframes draw-positive {
+        0% {
+          stroke-dashoffset: 210;
+        }
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wave-container">
+      <div class="waves">
+        <svg id="one">
+          <path class="path-positive path-black" fill="none" stroke="#000000" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 "></path>
+          <path class="path-positive path-blue" fill="none" stroke="#00FFFF" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+        </svg>
+      </div>
+      <div class="waves">
+        <svg id="two">
+          <path class="path-negative path-black" fill="none" stroke="#000000" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+          <path class="path-negative path-blue" fill="none" stroke="#00FFFF" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+        </svg>
+      </div>
+      <div class="waves">
+        <svg id="three">
+          <path class="path-positive path-black" fill="none" stroke="#000000" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+          <path class="path-positive path-blue" fill="none" stroke="#00FFFF" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+        </svg>
+      </div>
+    </div>
+  </body>
+</html>
