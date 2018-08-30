@@ -5,32 +5,17 @@
         position: relative;
       }
       #one,
+      #two,
       #three {
         width: 366px;
         left: -91.5px;
         position: relative;
         opacity: 1;
-        animation: wave-positive 1s linear 5s infinite;
-      }
-      #two {
-        width: 366px;
-        left: -91.5px;
-        position: relative;
-        opacity: 1;
-        animation: wave-positive 1s linear 5s infinite;
-      }
-      #three {
-        animation: wave-positive 1s linear 5s infinite;
+        animation: wave-positive 1s linear 6s infinite;
       }
       #one .path-black,
       #two .path-black,
       #three .path-black {
-        stroke-dasharray: 315;
-        stroke-dashoffset: 315;
-      }
-      #one .path-blue,
-      #two .path-blue,
-      #three .path-blue {
         stroke-dasharray: 315;
         stroke-dashoffset: 315;
       }
@@ -42,15 +27,6 @@
       }
       #three .path-black {
         animation: draw-positive 1s linear 2s forwards;
-      }
-      #one .path-blue {
-        animation: draw-positive 1s linear 4s forwards;
-      }
-      #two .path-blue {
-        animation: draw-positive 1s linear 4s forwards;
-      }
-      #three .path-blue {
-        animation: draw-positive 1s linear 4s forwards;
       }
       .waves {
         position: absolute;
@@ -92,20 +68,27 @@
     <div id="wave-container">
       <div class="waves">
         <svg id="one">
-          <path class="path-positive path-black" fill="none" stroke="#000000" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 "></path>
-          <path class="path-positive path-blue" fill="none" stroke="#00FFFF" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+          <linearGradient id="paint">
+            <stop offset="0%" stop-color="#0ff" />
+            <stop offset="0%" stop-color="#0ff">
+              <animate attributeName="offset" values="0;1" dur="3s" begin="3s" fill="freeze" />
+            </stop>
+            <stop offset="0%" stop-color="#000">
+              <animate attributeName="offset" values="0;1" dur="3s" begin="3s" fill="freeze" />
+            </stop>
+            <stop offset="100%" stop-color="#000" />
+          </linearGradient>
+          <path class="path-positive path-black" fill="none" stroke="url(#paint)" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 "></path>
         </svg>
       </div>
       <div class="waves">
         <svg id="two">
-          <path class="path-negative path-black" fill="none" stroke="#000000" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
-          <path class="path-negative path-blue" fill="none" stroke="#00FFFF" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+          <path class="path-positive path-black" fill="none" stroke="url(#paint)" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
         </svg>
       </div>
       <div class="waves">
         <svg id="three">
-          <path class="path-positive path-black" fill="none" stroke="#000000" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
-          <path class="path-positive path-blue" fill="none" stroke="#00FFFF" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
+          <path class="path-positive path-black" fill="none" stroke="url(#paint)" d="M 0,9 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0 q 15,15 30,0 t 30,0 30,0 30,0 30,0 30,0"></path>
         </svg>
       </div>
     </div>
