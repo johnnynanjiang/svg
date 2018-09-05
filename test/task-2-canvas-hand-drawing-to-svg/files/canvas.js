@@ -11,6 +11,7 @@ window.addEventListener('load', function () {
       svgRoot,
       context,
       tool,
+      pathID = 'wave',
       lgID = 'paint';
 
   function init () {
@@ -143,14 +144,24 @@ window.addEventListener('load', function () {
       var svgNS = this.ns.svgNS;
       return document.createElementNS(svgNS, "stop");
     },
-    animateGrad: function(d, b, f) {
+    animate: function(o) {
       var svgNS = this.ns.svgNS,
+          xlink = this.ns.xlink,
           a = document.createElementNS(svgNS, "animate");
-      a.setAttribute("attributeName", "offset");
-      a.setAttribute("values", "-1;2");
-      a.setAttribute("dur", d);
-      a.setAttribute("begin", b);
-      a.setAttribute("fill", f);
+      if (o.hrf) {a.setAttributeNS(xlink, 'href', o.hrf);};
+      a.setAttribute("attributeName", o.attrName);
+      if (o.attrName == "offset") {
+        a.setAttribute("values", o.values);
+      } else if (o.attrName == "d") {
+        a.setAttribute("from", o.from);
+        a.setAttribute("to", o.to);
+        a.setAttribute("repeatCount", o.repeat);
+        a.setAttribute("keyTimes", o.kt);
+        a.setAttribute("values", o.values);
+      }
+      a.setAttribute("dur", o.dur);
+      a.setAttribute("begin", o.begin);
+      a.setAttribute("fill", o.fill);
       return a;
     },
     linearGradient: function(id) {
@@ -158,8 +169,20 @@ window.addEventListener('load', function () {
           lg = document.createElementNS(svgNS, "linearGradient"),
           s1 = this.stop(),
           s2 = this.stop(),
-          a1 = this.animateGrad("3s", "3s", "freeze"),
-          a2 = this.animateGrad("3s", "3s", "freeze");
+          a1 = this.animate({
+            attrName: "offset",
+            values: "0;1",
+            dur: "3s",
+            begin: "3s",
+            fill: "freeze"
+          }),
+          a2 = this.animate({
+            attrName: "offset",
+            values: "0;1",
+            dur: "3s",
+            begin: "3s",
+            fill: "freeze"
+          });
       lg.setAttribute("id", id);
       s1.setAttribute("offset", "-1");
       s1.setAttribute("stop-color", "#0ff");
@@ -170,22 +193,82 @@ window.addEventListener('load', function () {
       lg.appendChild(s1);
       lg.appendChild(s2);
       return lg;
+    }
+  }
+
+  var utils = {
+    getXY: function(d, r) {
+      var xy = new Object();
+      xy['x'] = new Array();
+      xy['y'] = new Array();
+      do {
+        m = r.exec(d);
+        if (m) {
+            xy['x'].push(parseInt(m[1]));
+            xy['y'].push(parseInt(m[2]));
+        }
+      } while (m);
+      return xy;
     },
+    createPath: function(x, y) {
+      d = new String();
+      for (var i = 0; i < x.length; i++) {
+        d += (i == 0) ? 'M ' + x[i] + ',' + y[i] : ' L' + x[i] + ',' + y[i]
+      }
+      return d;
+    },
+    computePathForAnimation: function(d) {
+      var regx = /\s(\d+),(\d+)/g,
+          xy = this.getXY(d, regx),
+          py,
+          oy,
+          newY = new Array();
+          x = xy.x;
+          y = xy.y;
+          y.forEach(function(cy, i, ay) {
+            var sy = ay[0],
+                ty = 0;
+            if (i > 0) {
+              py = ay[i - 1];
+              oy = sy - cy
+              ty = (2 * (sy - cy)) + cy
+            }
+            newY[i] = (i == 0) ? cy : ty;
+          });
+      d = this.createPath(x, newY);
+      return d;
+    }
   }
 
   function convertToSVG() {
     p = context.getSVG().lastChild;
-    var attributes = p.attributes;
-    var attrs = {};
+    var attributes = p.attributes,
+        attrs = {};
     for (var i = 0; i < attributes.length; i++) {
       attrs[attributes[Object.keys(attributes)[i]].nodeName] = attributes[Object.keys(attributes)[i]].value;
     }
-    var svg = create.svg();
-    var lg = create.linearGradient(lgID);
-    var defs = create.defs();
+    attrs['id'] = pathID;
+    var svg = create.svg(),
+        lg = create.linearGradient(lgID),
+        defs = create.defs(),
+        path = create.path(attrs),
+        fromD = attrs.d,
+        toD = utils.computePathForAnimation(attrs.d),
+        v = fromD + ";" + toD + ";" + fromD,
+        animate = create.animate({
+          attrName: 'd',
+          dur: '2s',
+          begin: '7s',
+          from: fromD,
+          to: toD,
+          repeat: 'indefinite',
+          fill: 'remove',
+          kt: "0;0.5;1",
+          values:  v
+        });
     defs.appendChild(lg);
     svg.appendChild(defs);
-    var path = create.path(attrs);
+    path.appendChild(animate);
     svg.appendChild(path);
     svgRoot.appendChild(svg);
   }
