@@ -1,0 +1,2 @@
+- SVG Animation - move on wave @ http://tutorials.jenkov.com/svg/svg-animation.html
+- SVG Path Morphing - Batman @ http://tavmjong.free.fr/blog/?p=741
