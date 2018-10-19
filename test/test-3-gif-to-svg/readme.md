@@ -1,1 +1,0 @@
-- Google for "svg walk animation"
