@@ -1,0 +1,26 @@
+{
+  "name": "svg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^3.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnnynanjiang/svg.git"
+  },
+  "author": "Johnny Jiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnnynanjiang/svg/issues"
+  },
+  "homepage": "https://github.com/johnnynanjiang/svg#readme"
+}
