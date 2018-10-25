@@ -6,7 +6,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jasmine-node": "^1.16.2"
+  },
   "devDependencies": {
     "jasmine": "^3.2.0"
   },
