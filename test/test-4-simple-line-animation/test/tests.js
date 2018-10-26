@@ -18,7 +18,7 @@ describe("Test cases for SVG", function() {
 
     it("Gets diff between two arrays in different size, A < B", function() {
         const array1 = ["M", "1.0", "2.0", "L", "3.0", "4.0", ";"]
-        const array2 = ["M", "2.0", "4.0", "L", "6.0", "8.0", "L", "10.0", "12.0", ";"]
+        const array2 = ["M", "2.0", "4.0", "L", "6.0", "8.0", "L", "10", "12", ";"]
 
         const diff = getDiffBetween(array1, array2)
 
@@ -34,13 +34,13 @@ describe("Test cases for SVG", function() {
         expect(diff.toString()).toBe("M,1.00,2.00,L,3.00,4.00,;")
     })
 
-    it("Gets diff between two arrays in different size, A is empty < B", function() {
+    it("Gets diff between two arrays in different size, A is empty", function() {
         const array1 = []
         const array2 = ["M", "2.0", "4.0", "L", "6.0", "8.0",";"]
 
         const diff = getDiffBetween(array1, array2)
 
-        expect(diff.toString()).toBe("M,2.0,4.0,L,6.0,8.0,;")
+        expect(diff.toString()).toBe("M,2.00,4.00,L,6.00,8.00,;")
     })
 
     it("Gets pattern from a series of paths", function() {
@@ -55,7 +55,7 @@ describe("Test cases for SVG", function() {
         console.log(pattern[0])
         console.log(pattern[1])
         expect(pattern[0].toString()).toBe("M,1.10,2.10,L,3.10,4.10,;")
-        expect(pattern[1].toString()).toBe("M,-0.90,-1.90,L,-2.90,-3.90,L,5.20,6.20,L,7.20,8.20;")
+        expect(pattern[1].toString()).toBe("M,-0.90,-1.90,L,-2.90,-3.90,L,5.20,6.20,L,7.20,8.20,;")
     })
 
     it("Gets pattern from a series of paths, only one array element", function() {
@@ -108,11 +108,11 @@ function getDiffBetween(array1, array2) {
         const e1ToNumber = Number(e1)
         const e2ToNumber = Number(e2)
 
-        if (isNaN(e2ToNumber) || e1 === undefined) {
-            testLog(`${e2} is NaN`)
+        if (isNaN(e2ToNumber)) {
             result[i] = e2
+        } else if (e1 == undefined) {
+            result[i] = e2ToNumber.toFixed(2)
         } else {
-            testLog(`${e2} is not NaN`)
             result[i] = (e2ToNumber - e1ToNumber).toFixed(2).toString()
         }
     }
