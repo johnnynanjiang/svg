@@ -1,5 +1,5 @@
 describe("Test cases for SVG", function() {
-    it("Parses <path d='...'> to path", function() {
+    it("Gets path from <path d='...'>", function() {
         const d = "M1.0 2.0L3.0 4.0L5.0 6.0Z;"
 
         const path = getPathFromD(d)
@@ -52,8 +52,6 @@ describe("Test cases for SVG", function() {
         const pattern = getPatternFromPaths(paths)
 
         expect(pattern.length).toBe(2)
-        console.log(pattern[0])
-        console.log(pattern[1])
         expect(pattern[0].toString()).toBe("M,1.10,2.10,L,3.10,4.10,;")
         expect(pattern[1].toString()).toBe("M,-0.90,-1.90,L,-2.90,-3.90,L,5.20,6.20,L,7.20,8.20,;")
     })
@@ -68,6 +66,64 @@ describe("Test cases for SVG", function() {
         expect(pattern[0].toString()).toBe("1,2,3")
     })
 
+    it("Applies step to path, step = path in size", function() {
+        const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"]
+        const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
+
+        const newPath = applyStepToPath(step, path)
+
+        expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
+    })
+
+    it("Applies step to path, step = path in size", function() {
+        const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"]
+        const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
+
+        const newPath = applyStepToPath(step, path)
+
+        expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
+    })
+
+    it("Applies step to path, step = path in size, and has negative values", function() {
+        const step = ["M", "10.0", "20.0"]
+        const path = ["M", "-10.0", "-20.0"]
+
+        const newPath = applyStepToPath(step, path)
+
+        expect(newPath.toString()).toBe("M,0.00,0.00,;")
+    })
+
+    it("Applies step to path, step > path in size", function() {
+        const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"]
+        const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L"]
+
+        const newPath = applyStepToPath(step, path)
+
+        expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,50.00,60.00,;")
+    })
+
+    it("Applies step to path, step < path in size", function() {
+        const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L"]
+        const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
+
+        const newPath = applyStepToPath(step, path)
+
+        expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,;")
+    })
+
+    it("Applies pattern to path", function() {
+        const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
+        const pattern = [
+            ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"],
+            ["M", "20.0", "40.0", "L", "60.0", "80.0", "L", "100.0", "120.0"]
+        ]
+
+        const newPaths = applyPatternToPath(pattern, path)
+
+        expect(newPaths.length).toBe(2)
+        expect(newPaths[0].toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
+        expect(newPaths[1].toString()).toBe("M,40.00,80.00,L,120.00,160.00,L,200.00,240.00,;")
+    })
 })
 
 /* Utilities */
@@ -82,7 +138,7 @@ Array.prototype.flatMap = function(f) {
 }
 
 const testLog = (text) => {
-    //console.log(text)
+    console.log(text)
 }
 
 /* Functionality */
@@ -95,11 +151,12 @@ function getPathFromD(d) {
         .filter(e => e != '')
 }
 
-function getDiffBetweenPaths(path1, path2) {
+function manipulateBetweenPaths(path1, path2, operator) {
     const length = path2.length
     const result = [length]
 
-    if (path1 === undefined) return path2
+    if (isAnInvalidArray(path2)) return undefined
+    if (isAnInvalidArray(path1)) return path2
 
     for (let i=0; i<length; i++) {
         const e1 = path1[i]
@@ -113,14 +170,32 @@ function getDiffBetweenPaths(path1, path2) {
         } else if (e1 == undefined) {
             result[i] = e2ToNumber.toFixed(2)
         } else {
-            result[i] = (e2ToNumber - e1ToNumber).toFixed(2).toString()
+            result[i] = operator(e1ToNumber, e2ToNumber).toFixed(2).toString()
         }
     }
 
     return result
 }
 
+function getDiffBetweenPaths(path1, path2) {
+    return manipulateBetweenPaths(path1, path2, (p1, p2) => p2 - p1)
+}
+
+function isNull(v) {
+    return (v) ? false : true
+}
+
+function isArray(v) {
+    return v.constructor === Array
+}
+
+function isAnInvalidArray(v) {
+    return isNull(v) || !isArray(v)
+}
+
 function getPatternFromPaths(paths) {
+    if (isAnInvalidArray(paths)) return undefined
+
     if (paths.length < 2) return [paths]
 
     let resultArrays = []
@@ -132,6 +207,21 @@ function getPatternFromPaths(paths) {
     return resultArrays
 }
 
-function applyPatternToPath(pattern, path) {
+function applyStepToPath(step, path) {
+    let newPath = manipulateBetweenPaths(path, step, (p, s) => p + s)
+    newPath.push(";")
 
+    return newPath
+}
+
+function applyPatternToPath(pattern, path) {
+    if (isAnInvalidArray(pattern) || isAnInvalidArray(path)) return undefined
+
+    let results = [path]
+
+    for (let i=0; i<pattern.length; i++) {
+        results[i] = applyStepToPath(pattern[i], results[results.length - 1])
+    }
+
+    return results
 }
