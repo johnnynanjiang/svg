@@ -1,5 +1,5 @@
-var svg = require('./svg.js')
-var utils = require('./utils.js')
+const svg = require('./svg.js')
+const utils = require('./utils.js')
 
 describe("Test cases for SVG", function() {
     it("Gets path from <path d='...'>", function() {
@@ -69,59 +69,59 @@ describe("Test cases for SVG", function() {
         expect(pattern[0].toString()).toBe("1,2,3")
     })
 
-    it("Applies step to path, step = path in size", function() {
+    it("Gets new path by applying step to path, step = path in size", function() {
         const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"]
         const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
 
-        const newPath = svg.applyStepToPath(step, path)
+        const newPath = svg.getNewPathByApplyingStepToPath(step, path)
 
         expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
     })
 
-    it("Applies step to path, step = path in size", function() {
+    it("Gets new path by applying step to path, step = path in size", function() {
         const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"]
         const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
 
-        const newPath = svg.applyStepToPath(step, path)
+        const newPath = svg.getNewPathByApplyingStepToPath(step, path)
 
         expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
     })
 
-    it("Applies step to path, step = path in size, and has negative values", function() {
+    it("Gets new path by applying step to path, step = path in size, and has negative values", function() {
         const step = ["M", "10.0", "20.0"]
         const path = ["M", "-10.0", "-20.0"]
 
-        const newPath = svg.applyStepToPath(step, path)
+        const newPath = svg.getNewPathByApplyingStepToPath(step, path)
 
         expect(newPath.toString()).toBe("M,0.00,0.00,;")
     })
 
-    it("Applies step to path, step > path in size", function() {
+    it("Gets new path by applying step to path, step > path in size", function() {
         const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"]
         const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L"]
 
-        const newPath = svg.applyStepToPath(step, path)
+        const newPath = svg.getNewPathByApplyingStepToPath(step, path)
 
         expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,50.00,60.00,;")
     })
 
-    it("Applies step to path, step < path in size", function() {
+    it("Gets new path by applying step to path, step < path in size", function() {
         const step = ["M", "10.0", "20.0", "L", "30.0", "40.0", "L"]
         const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
 
-        const newPath = svg.applyStepToPath(step, path)
+        const newPath = svg.getNewPathByApplyingStepToPath(step, path)
 
         expect(newPath.toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,;")
     })
 
-    it("Applies pattern to path", function() {
+    it("Gets new paths by applying pattern to path", function() {
         const path = ["M", "10.0", "20.0", "L", "30.0", "40.0","L", "50.0", "60.0"]
         const pattern = [
             ["M", "10.0", "20.0", "L", "30.0", "40.0", "L", "50.0", "60.0"],
             ["M", "20.0", "40.0", "L", "60.0", "80.0", "L", "100.0", "120.0"]
         ]
 
-        const newPaths = svg.applyPatternToPath(pattern, path)
+        const newPaths = svg.getNewPathsByApplyingPatternToPath(pattern, path)
 
         expect(newPaths.length).toBe(2)
         expect(newPaths[0].toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
@@ -136,5 +136,25 @@ describe("Test cases for SVG", function() {
         expect(paths.length).toBe(2)
         expect(paths[0].toString()).toBe("M,1,2,c,3,4,l,5,6,z")
         expect(paths[1].toString()).toBe("M,7,8,c,-9,-10,z")
+    })
+
+    it("Gets pattern from animation", function() {
+        const animation = "M1 2 c3 4 l5 6z; M7 8 c-9 -10z;"
+
+        const pattern = svg.getPatternFromAnimation(animation)
+
+        expect(pattern.length).toBe(1)
+        expect(pattern[0].toString()).toBe("M,6.00,6.00,c,-12.00,-14.00,z")
+    })
+
+    it("Gets animation from pattern", function() {
+        const pattern = [
+            ["M", "10.0", "20.0", "L", "30.0", "40.0", ";"],
+            ["M", "20.0", "40.0", "L", "60.0", "80.0", ";"]
+        ]
+
+        const animation = svg.getAnimationFromPattern(pattern)
+
+        expect(animation).toBe("M 10.0 20.0 L 30.0 40.0 ;M 20.0 40.0 L 60.0 80.0 ;")
     })
 })

@@ -1,13 +1,14 @@
 <html>
     <head>
         <title>Test 4 - Simple Line Wave</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="./test/styles.css">
     </head>
     <body>
 
     <div>
         <button onclick="onClickGetPattern()">get pattern</button>
         <button onclick="onClickApplyPattern()">apply pattern</button>
+        <button onclick="onClickTest()">test</button>
     </div>
 
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="800" height="800">
@@ -40,7 +41,7 @@
 
     <script>
         function onClickGetPattern() {
-            var paths = document.querySelector("#id1 animate").getAttribute("values");
+            var paths = document.querySelector("#id2 animate").getAttribute("values");
             alert(paths)
         }
 
@@ -52,6 +53,20 @@
                                 M 0 0 L 100 150;";
             document.querySelector("#id1 animate").setAttribute("values", values);
         }
+
+        function onClickTest() {
+            const animationOfId2 = document.querySelector("#id2 animate").getAttribute("values")
+            console.log(`animationOfId2: ${animationOfId2}`)
+            const patternOfId2 = getPatternFromAnimation(animationOfId2)
+            console.log(`patternOfId2: ${patternOfId2}`)
+            const pathOfId3 = getPathFromD(document.querySelector("#id3").getAttribute("d"))
+            console.log(`pathOfId3: ${pathOfId3}`)
+            const animationOfId3 = getAnimationFromPattern(getNewPathsByApplyingPatternToPath(patternOfId2, pathOfId3))
+            console.log(`animationOfId3: ${animationOfId3}`)
+            document.querySelector("#id3 animate").setAttribute("values", animationOfId3)
+        }
     </script>
+
+    <script src="test/web.js"></script>
     </body>
 </html>

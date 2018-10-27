@@ -1,3 +1,61 @@
+/* Utilities */
+
+const concat = (x,y) =>
+    x.concat(y)
+
+const flatMap = (f,xs) =>
+    xs.map(f).reduce(concat, [])
+
+Array.prototype.flatMap = function(f) {
+    return flatMap(f,this)
+}
+
+const testLog = (text) => {
+    console.log(text)
+}
+
+/* Functionality */
+
+function manipulateBetweenPaths(path1, path2, operator) {
+    const length = path2.length
+    const result = [length]
+
+    if (isAnInvalidArray(path2)) return undefined
+    if (isAnInvalidArray(path1)) return path2
+
+    for (let i=0; i<length; i++) {
+        const e1 = path1[i]
+        const e2 = path2[i]
+
+        const e1ToNumber = Number(e1)
+        const e2ToNumber = Number(e2)
+
+        if (isNaN(e2ToNumber)) {
+            result[i] = e2
+        } else if (e1 == undefined) {
+            result[i] = e2ToNumber.toFixed(2)
+        } else {
+            result[i] = operator(e1ToNumber, e2ToNumber).toFixed(2).toString()
+        }
+    }
+
+    return result
+}
+
+function isNull(v) {
+    return (v) ? false : true
+}
+
+function isArray(v) {
+    return v.constructor === Array
+}
+
+function isAnInvalidArray(v) {
+    return isNull(v) || !isArray(v)
+}
+
+/* Exported Functions */
+
 /* Functionality */
 
 function manipulateBetweenPaths(path1, path2, operator) {
@@ -64,20 +122,20 @@ function getPatternFromPaths(paths) {
     return resultArrays
 }
 
-function getNewPathByApplyingStepToPath(step, path) {
+function applyStepToPath(step, path) {
     let newPath = manipulateBetweenPaths(path, step, (p, s) => p + s)
     newPath.push(";")
 
     return newPath
 }
 
-function getNewPathsByApplyingPatternToPath(pattern, path) {
+function applyPatternToPath(pattern, path) {
     if (isAnInvalidArray(pattern) || isAnInvalidArray(path)) return undefined
 
     let results = [path]
 
     for (let i=0; i<pattern.length; i++) {
-        results[i] = getNewPathByApplyingStepToPath(pattern[i], results[results.length - 1])
+        results[i] = applyStepToPath(pattern[i], results[results.length - 1])
     }
 
     return results
@@ -117,15 +175,4 @@ function getAnimationFromPattern(pattern) {
     }
 
     return animation
-}
-
-module.exports = {
-    getPathFromD: getPathFromD,
-    getDiffBetweenPaths: getDiffBetweenPaths,
-    getPatternFromPaths: getPatternFromPaths,
-    getNewPathByApplyingStepToPath: getNewPathByApplyingStepToPath,
-    getNewPathsByApplyingPatternToPath: getNewPathsByApplyingPatternToPath,
-    getPathsFromAnimation: getPathsFromAnimation,
-    getPatternFromAnimation: getPatternFromAnimation,
-    getAnimationFromPattern: getAnimationFromPattern
 }
