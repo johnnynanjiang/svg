@@ -1,10 +1,10 @@
 describe("Test cases for SVG", function() {
     it("Gets path from <path d='...'>", function() {
-        const d = "M1.0 2.0L3.0 4.0L5.0 6.0Z;"
+        const d = "M1.0 2.0L3.0 4.0L5.0 6.0 a-7 -8 b-9 -10Z;"
 
         const path = getPathFromD(d)
 
-        expect(path.toString()).toBe("M,1.0,2.0,L,3.0,4.0,L,5.0,6.0,Z,;")
+        expect(path.toString()).toBe("M,1.0,2.0,L,3.0,4.0,L,5.0,6.0,a,-7,-8,b,-9,-10,Z,;")
     })
 
     it("Gets diff between two paths in the same size, A = B", function() {
@@ -124,6 +124,17 @@ describe("Test cases for SVG", function() {
         expect(newPaths[0].toString()).toBe("M,20.00,40.00,L,60.00,80.00,L,100.00,120.00,;")
         expect(newPaths[1].toString()).toBe("M,40.00,80.00,L,120.00,160.00,L,200.00,240.00,;")
     })
+
+    it("Gets paths from animation", function() {
+        const animation = "M1 2 c3 4 l5 6z; M7 8 c-9 -10z;"
+
+        const paths = getPathsFromAnimation(animation)
+
+        testLog(paths.toString())
+        expect(paths.length).toBe(2)
+        expect(paths[0].toString()).toBe("M,1,2,c,3,4,l,5,6,z")
+        expect(paths[1].toString()).toBe("M,7,8,c,-9,-10,z")
+    })
 })
 
 /* Utilities */
@@ -144,11 +155,8 @@ const testLog = (text) => {
 /* Functionality */
 function getPathFromD(d) {
     return d.split(" ")
-        .flatMap(e => e.split(/(M)/g))
-        .flatMap(e => e.split(/(L)/g))
-        .flatMap(e => e.split(/(Z)/g))
-        .flatMap(e => e.split(/(;)/g))
-        .filter(e => e != '')
+        .flatMap(e => e.split(/([a-zA-Z;])/g))
+        .filter(e => e.trim() != '')
 }
 
 function manipulateBetweenPaths(path1, path2, operator) {
@@ -224,4 +232,21 @@ function applyPatternToPath(pattern, path) {
     }
 
     return results
+}
+
+function getPathsFromAnimation(animation) {
+    let pathStrings = animation.split(";")
+    let paths = []
+
+    if (isAnInvalidArray(pathStrings)) return undefined
+
+    for (let i=0; i<pathStrings.length-1; i++) {
+        let path = pathStrings[i]
+            .split(/([a-zA-Z ])/g)
+            .filter(e => e.trim() != '')
+
+        paths.push(path)
+    }
+
+    return paths
 }
