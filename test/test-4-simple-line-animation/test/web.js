@@ -104,41 +104,42 @@ function getPathFromD(d) {
         .filter(e => e.trim() != '')
 }
 
-function getDiffBetweenPaths(path1, path2) {
+function getStepBetweenPaths(path1, path2) {
     return manipulateBetweenPaths(path1, path2, (p1, p2) => p2 - p1)
 }
 
-function getPatternFromPaths(paths) {
-    if (isAnInvalidArray(paths)) return undefined
+function getStepsFromPaths(steps) {
+    if (isAnInvalidArray(steps)) return undefined
 
-    if (paths.length < 2) return [paths]
+    if (steps.length < 2) return [steps]
 
     let resultArrays = []
 
-    for (let i=1; i<paths.length; i++) {
-        resultArrays.push(getDiffBetweenPaths(paths[i-1], paths[i]))
+    for (let i=1; i<steps.length; i++) {
+        resultArrays.push(getStepBetweenPaths(steps[i-1], steps[i]))
     }
 
     return resultArrays
 }
 
-function applyStepToPath(step, path) {
+function getNewPathByApplyingStepToPath(step, path) {
     let newPath = manipulateBetweenPaths(path, step, (p, s) => p + s)
     newPath.push(";")
 
     return newPath
 }
 
-function applyPatternToPath(pattern, path) {
-    if (isAnInvalidArray(pattern) || isAnInvalidArray(path)) return undefined
+function getNewPathsByApplyingStepsToPath(steps, path) {
+    if (isAnInvalidArray(steps) || isAnInvalidArray(path)) return undefined
 
-    let results = [path]
+    path.push(";")
+    let newPaths = [path]
 
-    for (let i=0; i<pattern.length; i++) {
-        results[i] = applyStepToPath(pattern[i], results[results.length - 1])
+    for (let i=0; i<steps.length; i++) {
+        newPaths.push(getNewPathByApplyingStepToPath(steps[i], newPaths[newPaths.length - 1]))
     }
 
-    return results
+    return newPaths
 }
 
 function getPathsFromAnimation(animation) {
@@ -158,20 +159,20 @@ function getPathsFromAnimation(animation) {
     return paths
 }
 
-function getPatternFromAnimation(animation) {
+function getStepsFromAnimation(animation) {
     const paths = getPathsFromAnimation(animation)
-    const pattern = getPatternFromPaths(paths)
+    const steps = getStepsFromPaths(paths)
 
-    return pattern
+    return steps
 }
 
-function getAnimationFromPattern(pattern) {
-    if (isAnInvalidArray(pattern)) return undefined
+function getAnimationFromSteps(steps) {
+    if (isAnInvalidArray(steps)) return undefined
 
     let animation = ""
 
-    for (let i=0; i<pattern.length; i++) {
-        animation += pattern[i].join(" ")
+    for (let i=0; i<steps.length; i++) {
+        animation += steps[i].join(" ")
     }
 
     return animation

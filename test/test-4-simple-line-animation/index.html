@@ -6,8 +6,8 @@
     <body>
 
     <div>
-        <button onclick="onClickGetPattern()">get pattern</button>
-        <button onclick="onClickApplyPattern()">apply pattern</button>
+        <button onclick="onClickGetSteps()">get steps</button>
+        <button onclick="onClickApplySteps()">apply steps</button>
         <button onclick="onClickTest()">test</button>
     </div>
 
@@ -40,12 +40,12 @@
     </svg>
 
     <script>
-        function onClickGetPattern() {
+        function onClickGetSteps() {
             var paths = document.querySelector("#id2 animate").getAttribute("values");
             alert(paths)
         }
 
-        function onClickApplyPattern() {
+        function onClickApplySteps() {
             var values = "M 0 0 L 100 150;\
                                 M 0 0 L 100 200;\
                                 M 0 0 L 100 250;\
@@ -57,11 +57,11 @@
         function onClickTest() {
             const animationOfId2 = document.querySelector("#id2 animate").getAttribute("values")
             console.log(`animationOfId2: ${animationOfId2}`)
-            const patternOfId2 = getPatternFromAnimation(animationOfId2)
-            console.log(`patternOfId2: ${patternOfId2}`)
-            const pathOfId3 = getPathFromD(document.querySelector("#id3").getAttribute("d"))
-            console.log(`pathOfId3: ${pathOfId3}`)
-            const animationOfId3 = getAnimationFromPattern(getNewPathsByApplyingPatternToPath(patternOfId2, pathOfId3))
+            const stepsOfId2 = getStepsFromAnimation(animationOfId2)
+            console.log(`stepsOfId2: ${stepsOfId2}`)
+            const stepsOfId3 = getPathFromD(document.querySelector("#id3").getAttribute("d"))
+            console.log(`stepsOfId3: ${stepsOfId3}`)
+            const animationOfId3 = getAnimationFromSteps(getNewPathsByApplyingStepsToPath(stepsOfId2, stepsOfId3))
             console.log(`animationOfId3: ${animationOfId3}`)
             document.querySelector("#id3 animate").setAttribute("values", animationOfId3)
         }
