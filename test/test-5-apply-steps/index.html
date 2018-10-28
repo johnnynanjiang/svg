@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Test 5 - Apply Steps</title>
+    </head>
+    <body>
+
+    <div>
+        <button onclick="onClickTest()">test</button>
+    </div>
+
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="640" height="640">
+        <defs>
+            <path d="M251 111.5L227 113.5L209 122.5L194 140.5L189 161.5L191 182.5L204 200.5L222 212.5L244 215.5L264 210.5L284 204.5L297 184.5L300 164.5L298 144.5L281 127.5L264 116.5L244 110.5" id="aE7lm0C8c"></path>
+            <path d="M240 215.5L237 237.5L235 258.5L232 279.5L233 301.5L238 322.5L239 342.5" id="aZMZH60rS"></path>
+            <path d="M240 230.5L251 250.5L258 270.5L274 283.5L289 267.5L305 253.5L318 237.5" id="aMYTLo7eM"></path>
+            <path d="M240 230.5L220 232.5L200 236.5L176 238.5L154 251.5L152 272.5L161 292.5" id="bF438XFk"></path>
+            <path d="M240 342.5L258 355.5L275 368.5L292 380.5L310 393.5L312 416.5L312 437.5" id="buJQpHd6Z"></path>
+            <path d="M240 339.5L236 359.5L225 396.5L204 398.5L186 385.5L173 369.5" id="dathSsqp"></path>
+        </defs>
+        <g><g><g><g><use xlink:href="#aE7lm0C8c" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="6" stroke-opacity="1"></use></g></g><g><g><use xlink:href="#aZMZH60rS" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="6" stroke-opacity="1"></use></g></g><g><g><use xlink:href="#aMYTLo7eM" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="6" stroke-opacity="1"></use></g></g><g><g><use xlink:href="#bF438XFk" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="6" stroke-opacity="1"></use></g></g><g><g><use xlink:href="#buJQpHd6Z" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="6" stroke-opacity="1"></use></g></g><g><g><use xlink:href="#dathSsqp" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="6" stroke-opacity="1"></use></g></g></g></g></svg>
+
+    <script>
+        function onClickTest() {
+            const animationOfId2 = document.querySelector("#id2 animate").getAttribute("values")
+            console.log(`animationOfId2: ${animationOfId2}`)
+            const stepsOfId2 = getStepsFromAnimation(animationOfId2)
+            console.log(`stepsOfId2: ${stepsOfId2}`)
+            const stepsOfId3 = getPathFromD(document.querySelector("#id3").getAttribute("d"))
+            console.log(`stepsOfId3: ${stepsOfId3}`)
+            const animationOfId3 = getAnimationFromSteps(getNewPathsByApplyingStepsToPath(stepsOfId2, stepsOfId3))
+            console.log(`animationOfId3: ${animationOfId3}`)
+            document.querySelector("#id3 animate").setAttribute("values", animationOfId3)
+        }
+    </script>
+
+    <script src="../../app/web.js"></script>
+    </body>
+</html>
