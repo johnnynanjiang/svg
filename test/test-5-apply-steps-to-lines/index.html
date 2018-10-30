@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Test 5 - Apply Steps</title>
+    </head>
+    <body>
+
+    <div>
+        <button onclick="onClickTest()">test</button>
+    </div>
+
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 300 300" width="300" height="300">
+        <g
+                id="layer1">
+            <path
+                    style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                    d="M 1 1 L 10 10 L 20 20 L 30 30"
+                    id="path1260"
+                    inkscape:connector-curvature="0" />
+            <path
+                    style="fill:none;fill-rule:evenodd;stroke:#00ff00;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                    d="M 1 1 L 20 60 L 40 100 L 60 140"
+                    id="path1262"
+                    inkscape:connector-curvature="0" />
+            <path
+                    style="fill:none;fill-rule:evenodd;stroke:#0000ff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                    d="M 1 1 L 30 200 L 60 320 L 90 440"
+                    id="path1264"
+                    inkscape:connector-curvature="0" />
+            <path
+                    style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                    d="M 10 20 L 30 40 L 70 90 L 100 120"
+                    id="path1266"
+                    inkscape:connector-curvature="0" />
+        </g>
+        </g>
+    </svg>
+
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 300 300" width="300" height="300">
+        <g fill="none" stroke="#000000">
+            <path style="stroke-width:3"
+                    d="M 1 1 L 10 10 L 20 20 L 30 30"
+                    id="id1" >
+                <animate dur="1s" repeatCount="indefinite" attributeName="d"
+                         values="M 1 1 L 10 10 L 20 20 L 30 30;
+M 1 1 L 20 60 L 40 100 L 60 140;
+M 1 1 L 30 200 L 60 320 L 90 440;"/>
+            </path>
+        </g>
+    </svg>
+
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 300 300" width="300" height="300">
+        <g fill="none" stroke="#0000ff">
+            <path style="stroke-width:4"
+                  d="M 10 20 L 20 40 L 40 80 L 60 100"
+                  id="id2" >
+                <animate dur="1s" repeatCount="indefinite" attributeName="d"
+                         values=""/>
+            </path>
+        </g>
+    </svg>
+
+    <script>
+        function onClickTest() {
+            const animationOfId1 = document.querySelector("#id1 animate").getAttribute("values")
+            console.log(`animationOfId1: ${animationOfId1}`)
+            const stepsOfId1 = getStepsFromAnimation(animationOfId1)
+            console.log(`stepsOfId1: ${stepsOfId1}`)
+            const pathOfId2 = getPathFromD(document.querySelector("#id2").getAttribute("d"))
+            console.log(`pathOfId2: ${pathOfId2}`)
+            const animationOfId2 = getAnimationFromSteps(getNewPathsByApplyingStepsToPath(stepsOfId1, pathOfId2))
+            console.log(`animationOfId2: ${animationOfId2}`)
+            document.querySelector("#id2 animate").setAttribute("values", animationOfId2)
+        }
+    </script>
+
+    <script src="../../app/web.js"></script>
+    </body>
+</html>
