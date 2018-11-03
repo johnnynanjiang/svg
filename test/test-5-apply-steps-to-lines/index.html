@@ -42,17 +42,28 @@
                     id="id1" >
                 <animate dur="1s" repeatCount="indefinite" attributeName="d"
                          values="M 1 1 L 10 10 L 20 20 L 30 30;
-M 1 1 L 20 60 L 40 100 L 60 140;
-M 1 1 L 30 200 L 60 320 L 90 440;"/>
+                                M 1 1 L 20 60 L 40 100 L 60 140;
+                                M 1 1 L 30 200 L 60 320 L 90 440;"/>
             </path>
         </g>
     </svg>
 
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 300 300" width="300" height="300">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 300 400" width="300" height="400">
         <g fill="none" stroke="#0000ff">
             <path style="stroke-width:4"
                   d="M 10 20 L 20 40 L 40 80 L 60 100"
                   id="id2" >
+                <animate dur="1s" repeatCount="indefinite" attributeName="d"
+                         values=""/>
+            </path>
+        </g>
+    </svg>
+
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 300 400" width="300" height="400">
+        <g fill="none" stroke="#0000ff">
+            <path style="stroke-width:4"
+                  d="M 20 60 L 50 60 L 50 120 L 20 120 L 20 60"
+                  id="id3" >
                 <animate dur="1s" repeatCount="indefinite" attributeName="d"
                          values=""/>
             </path>
@@ -65,11 +76,19 @@ M 1 1 L 30 200 L 60 320 L 90 440;"/>
             console.log(`animationOfId1: ${animationOfId1}`)
             const stepsOfId1 = getStepsFromAnimation(animationOfId1)
             console.log(`stepsOfId1: ${stepsOfId1}`)
+
             const pathOfId2 = getPathFromD(document.querySelector("#id2").getAttribute("d"))
             console.log(`pathOfId2: ${pathOfId2}`)
             const animationOfId2 = getAnimationFromSteps(getNewPathsByApplyingStepsToPath(stepsOfId1, pathOfId2))
             console.log(`animationOfId2: ${animationOfId2}`)
             document.querySelector("#id2 animate").setAttribute("values", animationOfId2)
+
+            const pathOfId3 = getPathFromD(document.querySelector("#id3").getAttribute("d"))
+            console.log(`pathOfId3: ${pathOfId3}`)
+            const animationOfId3 = getAnimationFromSteps(getNewPathsByApplyingStepsToPath(stepsOfId1, pathOfId3))
+            console.log(`animationOfId3: ${animationOfId3}`)
+            document.querySelector("#id3 animate").setAttribute("values", animationOfId3)
+
         }
     </script>
 
